@@ -41,6 +41,7 @@ class Dotplot:
         return matrix
 
 
+
     @classmethod
     def filter_dotplot(self, matrix, treshold, window):
         """Makes two-dimensional array which represents filtered
@@ -130,3 +131,50 @@ class Dotplot:
         filteredDotplot = self.filter_dotplot(dotplot, treshold, window)
         self.show_dotplot(filteredDotplot, fasta1.get_id(), fasta2.get_id(), 'Filtered Dotplot')
         plt.show()
+
+@classmethod
+def filter_dotplot(self, matrix, treshold, window):
+    """Makes two-dimensional array which represents filtered
+    (with given treshold and window) match between two sequences.
+
+                    Parameters
+                    ----------
+                    matrix: Array, which is result of first match between two sequences
+                    treshold: int, number which represents acceptable difference of sequences in given window
+                    window: int, length of diagonal section which is analysed one at a time
+
+                    Returns
+                    ------
+                    two-dimensional filtered array of zeros and ones
+                    """
+
+    arr = numpy.array(matrix)
+
+    diags = [arr.diagonal(i) for i in range(-arr.shape[0] + 1, arr.shape[1])]
+
+    filteredArray = numpy.zeros((arr.shape[0], arr.shape[1]), dtype=int)
+
+    diagCounter = 1
+
+    for n in diags:
+
+        if len(n) >= window:
+            for i in range((len(n) + 1) - window):
+                counter = 0
+                for j in range(window):
+                    if n[j + i] == 1:
+                        counter = counter + 1
+
+                if (counter + treshold) >= window:
+
+                    for k in range(window):
+                        if (arr.shape[0] >= diagCounter):
+                            filteredArray[arr.shape[0] - diagCounter + k + i][k + i] = n[k + i]
+                        else:
+
+                            filteredArray[k + i][(diagCounter - arr.shape[0] + k + i)] = n[k + i]
+
+        diagCounter = diagCounter + 1
+
+    return filteredArray
+
