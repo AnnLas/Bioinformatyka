@@ -40,6 +40,33 @@ class Dotplot:
 
         return matrix
 
+    @classmethod
+    def show_dotplot(self, matrix, fasta1ID, fasta2ID, title):
+
+        """Shows dotplot
+
+                    Parameters
+                    ----------
+                    matrix: Array of zeros and ones
+                    fasta1ID: str, ID of the first sequence
+                    fasta2ID: str, ID of the second sequence
+                    title: str, Dotplot title
+
+
+                    """
+
+        data = numpy.array(matrix)
+        values = numpy.unique(data.ravel())
+        plt.figure()
+        im = plt.imshow(data, cmap='Greys')
+        colors = [im.cmap(im.norm(value)) for value in values]
+        states = ['mismatch', 'match']
+        patches = [mpatches.Patch(color=colors[i], label="{l}".format(l=states[i])) for i in range(len(values))]
+        plt.legend(handles=patches, bbox_to_anchor=(1, 1), loc=2, borderaxespad=0.)
+        plt.ylabel(fasta1ID)
+        plt.xlabel(fasta2ID)
+        plt.title(title)
+        plt.draw()
 
     @classmethod
     def filter_dotplot(self, matrix, treshold, window):
@@ -88,32 +115,15 @@ class Dotplot:
         return filteredArray
 
     @classmethod
-    def show_dotplot(self, matrix, fasta1ID, fasta2ID, title):
+    def save_plot(self, filename):
 
-        """Shows dotplot
+        """Saves dotplot, method is unnecesarry because pyplot derrives better solution with showed plot
 
                     Parameters
                     ----------
-                    matrix: Array of zeros and ones
-                    fasta1ID: str, ID of the first sequence
-                    fasta2ID: str, ID of the second sequence
-                    title: str, Dotplot title
-
-
+                    filename: str, name of the image of plot, which is saved in the project directory
                     """
-
-        data = numpy.array(matrix)
-        values = numpy.unique(data.ravel())
-        plt.figure()
-        im = plt.imshow(data, cmap='Greys')
-        colors = [im.cmap(im.norm(value)) for value in values]
-        states = ['mismatch', 'match']
-        patches = [mpatches.Patch(color=colors[i], label="{l}".format(l=states[i])) for i in range(len(values))]
-        plt.legend(handles=patches, bbox_to_anchor=(1, 1), loc=2, borderaxespad=0.)
-        plt.ylabel(fasta1ID)
-        plt.xlabel(fasta2ID)
-        plt.title(title)
-        plt.draw()
+        plt.savefig(filename)
 
     @classmethod
     def show_plots(self, fasta1, fasta2, treshold, window):
