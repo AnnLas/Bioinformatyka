@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
+<<<<<<< HEAD
   <component name="ChangeListManager">
     <list default="true" id="4c03bb6e-b9ff-4605-951e-0fae2946d5a5" name="Default Changelist" comment="" />
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
@@ -145,5 +146,12 @@
         </state>
       </provider>
     </entry>
+=======
+  <component name="ProjectFrameBounds" extendedState="6">
+    <option name="x" value="1600" />
+    <option name="y" value="159" />
+    <option name="width" value="1420" />
+    <option name="height" value="572" />
+>>>>>>> 5aa9f89... gitignore added, env created
   </component>
 </project>
