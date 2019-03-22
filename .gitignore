@@ -97,9 +97,13 @@ celerybeat-schedule
 
 # Environments
 .env
+<<<<<<< HEAD
+env/
+=======
 .venv
 env/
 venv/
+>>>>>>> 5aa9f89... gitignore added, env created
 ENV/
 env.bak/
 venv.bak/
