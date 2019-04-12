@@ -226,12 +226,12 @@ class Ui_MainWindow(object):
         match = int(self.match_txt.text())
         missmatch = int(self.missmatch_txt.text())
         gap = int(self.gap_txt.text())
-        globalMatch = GlobalMatch(match, missmatch, gap)
+        globalMatch = GlobalMatch(missmatch, match,gap)
 
         seq1 = self.fasta1.get('sequence')
         seq2 = self.fasta2.get('sequence')
         matrix = globalMatch.sequence_match(seq1, seq2)
-        pathMatrix = globalMatch.get_path(matrix[0],matrix[1], seq1, seq2)
+        pathMatrix = globalMatch.mark_path(matrix[0], matrix[1], seq1, seq2)
         globalMatch.show_plot(pathMatrix, self.id_1_txt.text(),self.id_2_txt.text())
         self.label_10.setText(globalMatch.get_stats())
 

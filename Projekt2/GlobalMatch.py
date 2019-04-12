@@ -57,11 +57,11 @@ class GlobalMatch:
 
         for j in range(1, matrix.shape[0]):
             for i in range(1, matrix.shape[1]):
-                self.get_score(i, j, matrix, roadMatrix)
+                self.evaluate_transformations(i, j, matrix, roadMatrix)
 
         return roadMatrix, matrix
 
-    def get_score(self, i, j, matrix, roadMatrix):
+    def evaluate_transformations(self, i, j, matrix, roadMatrix):
         """Scores best way of transformation, add points of most profitable transformation to previous value from matrix
 
                                     Parameters
@@ -108,7 +108,7 @@ class GlobalMatch:
         if a != b:
             return self.missmatch
 
-    def get_path(self, roadMatrix, matrix, sequence1, sequence2):
+    def mark_path(self, roadMatrix, matrix, sequence1, sequence2):
         """Checks the best way of transformation, based on roadMatrix, begins from the end of the GlobalMatch score matrix.
 
                                          Parameters
@@ -132,7 +132,7 @@ class GlobalMatch:
         self.sim = ''
         matrix[j, i] = float(numpy.nan)
 
-        while i != 0 and j != 0:
+        while i > 0 and j > 0:
 
             if roadMatrix[j][i] == 4:
                 i -= 1
