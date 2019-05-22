@@ -6,6 +6,7 @@ class LocalMatch:
     ACROSS = 4
     UP = 2
     LEFT = 1
+    END = 0
 
     def __init__(self, gap, G, L, substitutionMatrix):
         """Returns instance of LocalMatch
@@ -90,7 +91,8 @@ class LocalMatch:
                                          marix: local match score matrix with best path marked by Nans
 
                                           """
-
+        print(matrix)
+        print(roadMatrix)
         seq1 = ''
         seq2 = ''
         self.sim = ''
@@ -98,7 +100,7 @@ class LocalMatch:
         matrix[j, i] = float(numpy.nan)
         self.first.append(i)
         self.first.append(j)
-        while i > 0 and j > 0:
+        while roadMatrix[j][i] != LocalMatch.END and matrix[j][i] != 0:
 
             if roadMatrix[j][i] == LocalMatch.ACROSS:
                 i -= 1
@@ -123,6 +125,7 @@ class LocalMatch:
                 self.sim += " "
 
             matrix[j][i] = float(numpy.nan)
+
 
         self.resultSequence1 = seq1[::-1]
         self.resultSequence2 = seq2[::-1]
@@ -149,11 +152,17 @@ class LocalMatch:
         deletion2 = matrix[j][i - 1] + self.gap
         matrix[j][i] = max(substitution, deletion1, deletion2, 0)
 
-        if max(substitution, deletion1, deletion2) == substitution:
+        if matrix[j][i] <= 0:
+            matrix[j][i] = 0
+            roadMatrix[j][i] = LocalMatch.END
+
+
+
+        elif max(substitution, deletion1, deletion2) == substitution:
             roadMatrix[j][i] = LocalMatch.ACROSS
-        if max(substitution, deletion1, deletion2) == deletion1:
+        elif max(substitution, deletion1, deletion2) == deletion1:
             roadMatrix[j][i] = LocalMatch.UP
-        if max(substitution, deletion1, deletion2) == deletion2:
+        elif max(substitution, deletion1, deletion2) == deletion2:
             roadMatrix[j][i] = LocalMatch.LEFT
 
     def calculate_score_gap_penalising(self, i, j, matrix, roadMatrix):
