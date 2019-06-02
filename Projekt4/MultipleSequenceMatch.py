@@ -187,9 +187,14 @@ class MultipleSequenceMatch:
                                         """
 
         aligment = []
+
         sequencesNumber = len(self.sequencesMatrix)
+
+
+
         sequences = self.aligmentMatrix[
-                    (self.centerSeq * 2 * (sequencesNumber - 1)):(self.centerSeq * 2 * (sequencesNumber) + 2)]
+                    (self.centerSeq * 2 * (sequencesNumber - 1)):((self.centerSeq * 2 * (sequencesNumber - 1)) + 2 * (sequencesNumber-1))]
+
 
         aligment.append(sequences[0])
         aligment.append(sequences[1])
@@ -206,6 +211,10 @@ class MultipleSequenceMatch:
 
                     if not len(sequences[0]) > j:
                         sequences[0] = sequences[0][:j] + '-' + sequences[0][j:]
+                        self.insert_gap_to_array(j,aligment)
+
+                    if len(aligment[0])<j:
+                        self.insert_gap_to_array(j, aligment)
 
                     if sequences[i - 1][j] == sequences[0][j]:
                         j = j + 1
@@ -251,7 +260,7 @@ class MultipleSequenceMatch:
                                                sequence: sequence where gap is inserted
 
                                                """
-        return sequence[0][:index] + '-' + sequence[0][index:]
+        return sequence + '-'
 
     def calculate_total_score(self, matrix):
         """Calculate total score of star aligment algorithm
